@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Activity,
   Boxes,
@@ -259,11 +261,15 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="mt-4 min-h-[7rem] rounded-xl border border-card-border bg-background p-4 text-sm leading-relaxed whitespace-pre-wrap text-muted">
+          <div className="mt-4 min-h-[7rem] rounded-xl border border-card-border bg-background p-4 text-sm leading-relaxed text-muted">
             {error ? (
               <span className="text-red-400">{error}</span>
             ) : resposta ? (
-              <span className="text-foreground">{resposta}</span>
+              <div className="aria-md text-foreground">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {resposta.replace(/\s*<br\s*\/?>\s*/gi, " · ")}
+                </ReactMarkdown>
+              </div>
             ) : (
               t.empty
             )}
